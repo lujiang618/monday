@@ -64,3 +64,6 @@ composer require predis/predis
 ```
 
 ## 9.[overtrue/laravel-wechat]https://github.com/overtrue/laravel-wechat
+```
+composer require overtrue/laravel-wechat
+```
