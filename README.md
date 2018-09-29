@@ -53,7 +53,7 @@ composer require mews/captcha
 php artisan vendor:publish
 ```
 
-## 7.[monolog](https://github.com/Seldaek/monolog/blob/master/doc/01-usage.md)
+## 7.[monolog](https://github.com/Seldaek/monolog)
 ```
 
 ```
@@ -63,7 +63,7 @@ php artisan vendor:publish
 composer require predis/predis
 ```
 
-## 9.[overtrue/laravel-wechat]https://github.com/overtrue/laravel-wechat
+## 9.[overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)[官网](https://easywechat.com/)
 ```
 composer require overtrue/laravel-wechat
 ```
