@@ -6,15 +6,23 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "barryvdh/laravel-ide-helper": "^2.4",
         "fideloper/proxy": "~3.3",
+        "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "5.5.*",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "mews/captcha": "^2.2",
+        "overtrue/laravel-wechat": "^4.0",
+        "predis/predis": "^1.1",
+        "xethron/migrations-generator": "^2.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.1",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~1.0",
         "phpunit/phpunit": "~6.0",
+        "reliese/laravel": "^0.0.13",
         "symfony/thanks": "^1.0"
     },
     "autoload": {
