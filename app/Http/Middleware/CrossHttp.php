@@ -15,7 +15,8 @@ class CrossHttp
      */
     public function handle($request, Closure $next)
     {
-        $wxUrl    = getRealEnv('wechat.JD_PROJECT_URL');
+        //$wxUrl    = getRealEnv('wechat.JD_PROJECT_URL');
+        $wxUrl    = "*";
         $response = $next($request);
 
         $response->header('Access-Control-Allow-Origin', $wxUrl);
