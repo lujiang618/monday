@@ -68,3 +68,10 @@ composer require predis/predis
 ```
 composer require overtrue/laravel-wechat
 ```
+
+## 10.[jormin/laravel-ddoc](https://github.com/jormin/laravel-ddoc)
+```
+composer require jormin/laravel-ddoc
+
+php artisan vendor:publish
+```
