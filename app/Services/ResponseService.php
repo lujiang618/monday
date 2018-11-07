@@ -8,7 +8,6 @@
 
 namespace App\Services;
 
-
 use App\Contracts\ResponseContract;
 use Illuminate\Http\Response;
 
@@ -109,7 +108,8 @@ class ResponseService implements ResponseContract
      * @return \Illuminate\Config\Repository|mixed
      *
      */
-    private function getMsgByCode($code) {
+    private function getMsgByCode($code)
+    {
         return config('errorcode.'.$code);
     }
 
@@ -150,5 +150,4 @@ class ResponseService implements ResponseContract
     {
         $this->response->header('Content-Type', self::CONTENT_TYPE);
     }
-
 }

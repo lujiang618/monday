@@ -8,7 +8,6 @@
 
 namespace App\Contracts;
 
-
 interface DataDictionaryContract
 {
     public function outputPdf() ;

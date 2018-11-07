@@ -8,7 +8,6 @@
 
 namespace App\Contracts;
 
-
 use Illuminate\Http\Response;
 
 interface ResponseContract

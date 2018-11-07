@@ -8,7 +8,6 @@
 
 namespace App\Services;
 
-
 use App\Contracts\HttpContract;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
@@ -19,7 +18,8 @@ class HttpService implements HttpContract
     private $timeout = '10';
     private $client;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->client = $this->getClient();
     }
 
@@ -67,7 +67,6 @@ class HttpService implements HttpContract
         } catch (\Exception $e) {
             return ['erorrInfo'=>$e->getMessage()];
         }
-
     }
 
     /***

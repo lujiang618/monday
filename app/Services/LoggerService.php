@@ -8,7 +8,6 @@
 
 namespace App\Supports\Heplers;
 
-
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -43,7 +42,8 @@ class LoggerService
      *
      * @throws \Exception
      */
-    public function __construct(string $name, string $path='third') {
+    public function __construct(string $name, string $path='third')
+    {
         $this->logger = new Logger($name);
         $fileName     = date('Ymd').'.log';
         $this->path   = storage_path($path.DIRECTORY_SEPARATOR.$fileName);
@@ -69,7 +69,6 @@ class LoggerService
      */
     public function write(array $message, string $type = 'info') : bool
     {
-
         if (!in_array($type, array_keys($this->levels))) {
             return false;
         }
@@ -112,5 +111,4 @@ class LoggerService
 
         return $status;
     }
-
 }

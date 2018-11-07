@@ -8,13 +8,11 @@
 
 namespace App\Services;
 
-
 use App\Contracts\DataDictionaryContract;
 
 class DataDictionaryService implements DataDictionaryContract
 {
-    public function outputPdf() {
-
-
+    public function outputPdf()
+    {
     }
 }

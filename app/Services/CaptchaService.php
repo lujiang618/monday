@@ -8,11 +8,9 @@
 
 namespace App\Services;
 
-
 use App\Contracts\CaptchaContract;
 use Illuminate\Support\Facades\Redis;
 use Mews\Captcha\Facades\Captcha;
-
 
 class CaptchaService implements CaptchaContract
 {
@@ -37,9 +35,9 @@ class CaptchaService implements CaptchaContract
      */
     public function get() : array
     {
-        $data = Captcha::create($this->theme,true);
+        $data = Captcha::create($this->theme, true);
 
-        Redis::setex($data['key'],$this->expires, true);
+        Redis::setex($data['key'], $this->expires, true);
 
         return $data;
     }
