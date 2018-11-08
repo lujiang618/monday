@@ -75,3 +75,8 @@ composer require jormin/laravel-ddoc
 
 php artisan vendor:publish
 ```
+
+## 11.[squizlabs/php_codesniffer](https://github.com/squizlabs/PHP_CodeSniffer)
+```
+composer require 'squizlabs/php_codesniffer=*'
+```
