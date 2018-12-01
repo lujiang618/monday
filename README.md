@@ -54,9 +54,9 @@ composer require mews/captcha
 php artisan vendor:publish
 ```
 
-## 7.[monolog](https://github.com/Seldaek/monolog)
+## 7.[monolog](https://github.com/Seldaek/monolog) 很不错的log扩展
 ```
-
+composer require monolog/monolog
 ```
 
 ## 8.[predis/predis](https://github.com/nrk/predis)

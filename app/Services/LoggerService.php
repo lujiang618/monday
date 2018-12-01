@@ -17,6 +17,7 @@ class LoggerService
     private $dateFormat = 'Y-m-d H:i:s';
     private $logger;
     private $path;
+    private $outputFormat = "[%datetime%]  %channel%.%level_name% : %message%\n";
 
     /**
      * The Log levels.
@@ -42,14 +43,13 @@ class LoggerService
      *
      * @throws \Exception
      */
-    public function __construct(string $name, string $path='third')
+    public function __construct(string $path='third', string $name = '')
     {
         $this->logger = new Logger($name);
-        $fileName     = date('Ymd').'.log';
-        $this->path   = storage_path($path.DIRECTORY_SEPARATOR.$fileName);
 
-        $output    = "[%datetime%]  %channel%.%level_name% : %message%\n";
-        $formatter = new LineFormatter($output, $this->dateFormat, true, true);
+        $this->path = $this->generatePath($path, $name);
+
+        $formatter = new LineFormatter($this->outputFormat, $this->dateFormat, true, true);
         $stream    = new StreamHandler($this->path, Logger::DEBUG);
 
         $stream->setFormatter($formatter);
@@ -110,5 +110,23 @@ class LoggerService
         $status = $this->logger->error($message);
 
         return $status;
+    }
+
+    /**
+     * @description
+     * @author       lujiang
+     *
+     * @param $name
+     * @param $path
+     *
+     * @return string
+     *
+     */
+    private function generatePath($path, $name) {
+
+        $fileName = $name ? $name.'_'.date('Ymd').'.log' : date('Ymd').'.log';
+        $filePath = $path ? $path.DIRECTORY_SEPARATOR.$fileName : $fileName;
+
+        return storage_path($filePath);
     }
 }
