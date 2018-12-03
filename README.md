@@ -80,3 +80,9 @@ php artisan vendor:publish
 ```
 composer require 'squizlabs/php_codesniffer=*'
 ```
+
+## 12.[ramsey/uuid]()
+对于程序的安全性来说，使用uuid作为主键要比自增好很多
+```
+composer require ramsey/uuid
+```
