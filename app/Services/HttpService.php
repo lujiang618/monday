@@ -9,6 +9,7 @@
 namespace App\Services;
 
 use App\Contracts\HttpContract;
+use App\Supports\Heplers\LoggerService;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Session;
@@ -17,29 +18,25 @@ class HttpService implements HttpContract
 {
     private $timeout = '10';
     private $client;
+    private $url;
 
-    public function __construct()
-    {
+    public function __construct(string $url) {
         $this->client = $this->getClient();
+        $this->url    = $url;
     }
 
     /**
      * @deprecated   GET 方式请求
      * @author       lujiang
      *
-     * @param string $url
-     * @param array  $queryParams
+     * @param array  $params
      *
      * @return array
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function get(string $url, array $queryParams) :array
-    {
-        $response = $this->getClient()->request('GET', $url, [
-            'query'   => $queryParams,
-            'headers' => $this->getHeader(),
-        ]);
+    public function get(array $params) : array {
+        $response = $this->request($params, 'GET');
 
         return $this->getData($response);
     }
@@ -48,46 +45,106 @@ class HttpService implements HttpContract
      * @deprecated   POST 方式请求
      * @author       lujiang
      *
-     * @param string $url
-     * @param array  $params
+     * @param array $params
      *
      * @return array
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function post(string $url, array $params) : array
-    {
-        try {
-            $response = $this->client->request('post', $url, [
-                'json' => $params,
-                'headers' => $this->getHeader(),
-            ]);
+    public function post(array $params) : array {
+        $response = $this->request($params, 'post');
 
-            return $this->getData($response);
-        } catch (\Exception $e) {
-            return ['erorrInfo'=>$e->getMessage()];
-        }
+        return $this->getData($response);
     }
 
     /***
      * @deprecated   PUT 方式请求
      * @author       lujiang
      *
-     * @param string $url
-     * @param array  $prams
+     * @param array  $params
      *
      * @return array
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function put(string $url, array $prams) : array
-    {
-        $response = $this->getClient()->request('put', $url, [
-            'json' => $prams,
-            'headers' => $this->getHeader(),
-        ]);
+    public function put(array $params) : array {
+        $response = $this->request($params, 'put');
 
         return $this->getData($response);
+    }
+
+    /**
+     * @description
+     * @author       lujiang
+     *
+     * @param array  $params
+     * @param string $mode
+     *
+     * @return array
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function request(array $params, string $mode = 'post') {
+        try {
+            $response = $this->getClient()->request($mode, $this->getUrl, $this->getOptions());
+
+            $result = $this->getData($response);
+
+            $logger = new LoggerService('third');
+            $logger->write([
+                'url'      => $this->getUrl(),
+                'request'  => $params,
+                'response' => $response,
+            ]);
+
+            return $result;
+        } catch (\Exception $e) {
+
+            $logger = new LoggerService('third');
+            $logger->write([
+                'url'      => $this->getUrl(),
+                'request'  => $params,
+                'response' => $e->getMessage(),
+            ]);
+
+            return ['erorrInfo' => $e->getMessage()];
+        }
+    }
+
+    /**
+     * @description
+     * @author       lujiang
+     *
+     * @param array  $params
+     * @param string $mode
+     *
+     * @return array
+     *
+     */
+    public function getOptions(array $params, string $mode = 'post') {
+        $options = [
+            'headers' => $this->getHeader(),
+        ];
+
+        if (strtolower($mode) == 'get') {
+            $options['query'] = $params;
+        } else {
+            $options['json'] = $params;
+        }
+
+        return $options;
+    }
+
+    /**
+     * @description
+     * @author       lujiang
+     *
+     *
+     * @return string
+     *
+     */
+    public function getUrl() {
+        return $this->url;
     }
 
     /**
@@ -98,8 +155,7 @@ class HttpService implements HttpContract
      * @return array
      *
      */
-    private function getHeader() :array
-    {
+    private function getHeader() : array {
         if (Session::get('token')) {
             return [
                 'Authorization' => 'JWT '.Session::get('token'),
@@ -107,7 +163,7 @@ class HttpService implements HttpContract
             ];
         }
 
-        return ['Content-Type'  => 'application/json',];
+        return ['Content-Type' => 'application/json',];
     }
 
     /**
@@ -118,8 +174,7 @@ class HttpService implements HttpContract
      * @return Client
      *
      */
-    private function getClient() : Client
-    {
+    private function getClient() : Client {
         $client = new Client(['timeout' => $this->timeout]);
 
         return $client;
@@ -134,8 +189,7 @@ class HttpService implements HttpContract
      * @return array
      *
      */
-    private function getData(Response $response) : array
-    {
+    private function getData(Response $response) : array {
         $code   = $response->getStatusCode(); // 200
         $reason = $response->getReasonPhrase(); // OK
 
@@ -146,6 +200,6 @@ class HttpService implements HttpContract
             $data = ['reason' => $reason];
         }
 
-        return (array)$data;
+        return (array) $data;
     }
 }
