@@ -10,7 +10,7 @@ namespace App\Services\api;
 
 
 use App\Contracts\ApiContract;
-use App\Services\HttpService;
+use App\Contracts\HttpContract;
 
 class BaseService implements ApiContract
 {
@@ -25,9 +25,9 @@ class BaseService implements ApiContract
     /**
      * BaseService constructor.
      *
-     * @param HttpService $httpClient
+     * @param HttpContract $httpClient
      */
-    public function __construct(HttpService $httpClient) {
+    public function __construct(HttpContract $httpClient) {
         $config = config('api.'.$this->name);
 
         $this->baseUrl = $config['baseUrl'];
@@ -49,6 +49,7 @@ class BaseService implements ApiContract
      */
     public function post(array $params, string $method) : array {
         $this->httpClient->init($this->getUrl($method), $this->getHeader());
+        
         $result = $this->httpClient->post($params);
 
         return $result;
