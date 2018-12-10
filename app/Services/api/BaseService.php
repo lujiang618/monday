@@ -49,7 +49,7 @@ class BaseService implements ApiContract
      */
     public function post(array $params, string $method) : array {
         $this->httpClient->init($this->getUrl($method), $this->getHeader());
-        
+
         $result = $this->httpClient->post($params);
 
         return $result;
