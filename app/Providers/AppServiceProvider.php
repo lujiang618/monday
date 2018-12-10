@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Contracts\ApiContract;
 use App\Contracts\CaptchaContract;
 use App\Contracts\HttpContract;
 use App\Contracts\LoggerContract;
 use App\Contracts\ResponseContract;
+use App\Services\api\BaseService;
 use App\Services\CaptchaService;
 use App\Services\HttpService;
 use App\Services\ResponseService;
@@ -35,5 +37,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(LoggerContract::class, LoggerService::class);
         $this->app->bind(CaptchaContract::class, CaptchaService::class);
         $this->app->bind(ResponseContract::class, ResponseService::class);
+
+        // TODO 这样写可能会有问题
+        $this->app->bind(ApiContract::class, BaseService::class);
     }
 }

@@ -11,6 +11,17 @@ namespace App\Contracts;
 interface HttpContract
 {
     /**
+     * @description  设置请求的url
+     * @author       lujiang
+     *
+     * @param string $url
+     *
+     * @return mixed
+     *
+     */
+    public function setUrl(string $url);
+
+    /**
      * @deprecated   GET 方式请求
      * @author       lujiang
      *
@@ -45,4 +56,52 @@ interface HttpContract
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function put(array $prams) : array;
+
+    /**
+     * @description  写日志
+     * @author       lujiang
+     *
+     * @param array  $request
+     * @param array  $response
+     * @param string $type
+     *
+     * @return bool
+     *
+     * @throws \Exception
+     */
+    public function writeLog(array $request, array $response,string $type = 'info');
+
+    /**
+     * @description  init
+     * @author       lujiang
+     *
+     * @param string $url
+     * @param array  $header
+     * @param int    $timeout
+     *
+     * @return bool
+     *
+     */
+    public function init(string $url, array $header, int $timeout) : bool;
+
+    /**
+     * @description
+     * @author       lujiang
+     *
+     * @param int $timeout
+     *
+     * @return bool
+     *
+     */
+    public function setTimeout(int $timeout) : bool;
+
+    /**
+     * @description
+     * @author       lujiang
+     *
+     *
+     * @return int
+     *
+     */
+    public function getTimeout() : int;
 }

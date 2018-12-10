@@ -12,24 +12,23 @@ use App\Contracts\HttpContract;
 use App\Supports\Heplers\LoggerService;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use Illuminate\Support\Facades\Session;
 
 class HttpService implements HttpContract
 {
     private $timeout = '10';
-    private $client;
     private $url;
+    private $client;
+    private $header;
 
-    public function __construct(string $url) {
+    public function __construct() {
         $this->client = $this->getClient();
-        $this->url    = $url;
     }
 
     /**
      * @deprecated   GET 方式请求
      * @author       lujiang
      *
-     * @param array  $params
+     * @param array $params
      *
      * @return array
      *
@@ -61,7 +60,7 @@ class HttpService implements HttpContract
      * @deprecated   PUT 方式请求
      * @author       lujiang
      *
-     * @param array  $params
+     * @param array $params
      *
      * @return array
      *
@@ -86,29 +85,63 @@ class HttpService implements HttpContract
      */
     public function request(array $params, string $mode = 'post') {
         try {
-            $response = $this->getClient()->request($mode, $this->getUrl, $this->getOptions());
+            $response = $this->getClient()->request($mode, $this->getUrl(), $this->getOptions());
 
             $result = $this->getData($response);
 
-            $logger = new LoggerService('third');
-            $logger->write([
-                'url'      => $this->getUrl(),
-                'request'  => $params,
-                'response' => $response,
-            ]);
+            $this->writeLog($params, $response);
 
             return $result;
         } catch (\Exception $e) {
-
-            $logger = new LoggerService('third');
-            $logger->write([
-                'url'      => $this->getUrl(),
-                'request'  => $params,
-                'response' => $e->getMessage(),
-            ]);
+            $this->writeLog($params, ['error-info' => $e->getMessage()], 'error');
 
             return ['erorrInfo' => $e->getMessage()];
         }
+    }
+
+    /**
+     * @description  写日志
+     * @author       lujiang
+     *
+     * @param array  $request
+     * @param array  $response
+     * @param string $type
+     *
+     * @return bool
+     *
+     * @throws \Exception
+     */
+    public function writeLog(array $request, array $response, string $type = 'info') {
+        $logger = new LoggerService('third');
+        $data   = [
+            'url'      => $this->getUrl(),
+            'request'  => $request,
+            'response' => $response,
+        ];
+
+        $logger->write($data, $type);
+
+        return true;
+    }
+
+    /**
+     * @description  init
+     * @author       lujiang
+     *
+     * @param string $url
+     * @param array  $header
+     * @param int    $timeout
+     *
+     * @return bool
+     *
+     */
+    public function init(string $url, array $header, int $timeout = 0) : bool {
+        $this->setUrl($url);
+        $this->setHeader($header);
+
+        $this->setTimeout($timeout);
+
+        return true;
     }
 
     /**
@@ -148,6 +181,18 @@ class HttpService implements HttpContract
     }
 
     /**
+     * @description  设置接口要访问的url
+     * @author       lujiang
+     *
+     * @param string $url
+     *
+     *
+     */
+    public function setUrl(string $url) {
+        $this->url = $url;
+    }
+
+    /**
      * @deprecated   获取请求头
      * @author       lujiang
      *
@@ -155,16 +200,54 @@ class HttpService implements HttpContract
      * @return array
      *
      */
-    private function getHeader() : array {
-        if (Session::get('token')) {
-            return [
-                'Authorization' => 'JWT '.Session::get('token'),
-                'Content-Type'  => 'application/json',
-            ];
+    public function getHeader() : array {
+        return $this->header;
+    }
+
+    /**
+     * @description  设置header
+     * @author       lujiang
+     *
+     * @param array $header
+     *
+     * @return bool
+     *
+     */
+    public function setHeader(array $header) : bool {
+        $this->header = $header;
+
+        return true;
+    }
+
+    /**
+     * @description
+     * @author       lujiang
+     *
+     * @param int $timeout
+     *
+     * @return bool
+     *
+     */
+    public function setTimeout(int $timeout) : bool {
+        if ($timeout > 0) {
+            $this->timeout = $timeout;
         }
 
-        return ['Content-Type' => 'application/json',];
+        return true;
     }
+
+    /**
+     * @description
+     * @author       lujiang
+     *
+     *
+     * @return int
+     *
+     */
+    public function getTimeout() : int {
+        return $this->timeout;
+    }
+
 
     /**
      * @deprecated   获取guzzle客户端
@@ -175,7 +258,7 @@ class HttpService implements HttpContract
      *
      */
     private function getClient() : Client {
-        $client = new Client(['timeout' => $this->timeout]);
+        $client = new Client(['timeout' => $this->getTimeout()]);
 
         return $client;
     }
