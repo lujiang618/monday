@@ -43,6 +43,18 @@ class DateHelper
         return $weekEnd;
     }
 
+    /**
+     * @description  获取毫秒级的时间戳（四舍五入了）
+     * @author       lujiang
+     *
+     *
+     * @return float
+     *
+     */
+    public static function getMsecTime() {
+        return round(microtime(true) * 1000, 0);
+    }
+
     private function todo() {
         //本周一
         echo date('Y-m-d', (time() - ((date('w') == 0 ? 7 : date('w')) - 1) * 24 * 3600)); //w为星期几的数字形式,这里0为周日

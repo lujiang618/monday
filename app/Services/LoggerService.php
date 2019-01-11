@@ -6,13 +6,14 @@
  * Time: 19:05
  */
 
-namespace App\Supports\Heplers;
+namespace App\Services;
 
+use App\Contracts\LoggerContract;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
-class LoggerService
+class LoggerService implements LoggerContract
 {
     private $dateFormat = 'Y-m-d H:i:s';
     private $logger;
@@ -125,7 +126,7 @@ class LoggerService
     private function generatePath($path, $name) {
 
         $fileName = $name ? $name.'_'.date('Ymd').'.log' : date('Ymd').'.log';
-        $filePath = $path ? $path.DIRECTORY_SEPARATOR.$fileName : $fileName;
+        $filePath = $path ? 'logs/'.$path.DIRECTORY_SEPARATOR.$fileName : $fileName;
 
         return storage_path($filePath);
     }

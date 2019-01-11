@@ -35,4 +35,29 @@ class Network
 
         return $url.'?'.$args;
     }
+
+    /**
+     * @description  获取客户端请求的IP
+     * @author       lujiang
+     *
+     *
+     * @return array|false|string
+     *
+     */
+    public static function getRequestIP()
+    {
+        if (getenv("HTTP_CLIENT_IP")) {
+            return getenv("HTTP_CLIENT_IP");
+        }
+
+        if(getenv("HTTP_X_FORWARDED_FOR")) {
+            return getenv("HTTP_X_FORWARDED_FOR");
+        }
+
+        if(getenv("REMOTE_ADDR")) {
+            return  getenv("REMOTE_ADDR");
+        }
+
+        return '';
+    }
 }

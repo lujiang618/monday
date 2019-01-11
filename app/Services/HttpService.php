@@ -37,7 +37,7 @@ class HttpService implements HttpContract
     public function get(array $params) : array {
         $response = $this->request($params, 'GET');
 
-        return $this->getData($response);
+        return $response;
     }
 
     /**
@@ -53,7 +53,7 @@ class HttpService implements HttpContract
     public function post(array $params) : array {
         $response = $this->request($params, 'post');
 
-        return $this->getData($response);
+        return $response;
     }
 
     /***
@@ -69,7 +69,7 @@ class HttpService implements HttpContract
     public function put(array $params) : array {
         $response = $this->request($params, 'put');
 
-        return $this->getData($response);
+        return $response;
     }
 
     /**
@@ -83,13 +83,14 @@ class HttpService implements HttpContract
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function request(array $params, string $mode = 'post') {
+    public function request(array $params, string $mode = 'post') : array
+    {
         try {
             $response = $this->getClient()->request($mode, $this->getUrl(), $this->getOptions());
 
             $result = $this->getData($response);
 
-            $this->writeLog($params, $response);
+            $this->writeLog($params, $result);
 
             return $result;
         } catch (\Exception $e) {
@@ -111,7 +112,8 @@ class HttpService implements HttpContract
      *
      * @throws \Exception
      */
-    public function writeLog(array $request, array $response, string $type = 'info') {
+    public function writeLog(array $request, array $response, string $type = 'info') : bool
+    {
         $logger = new LoggerService('third');
         $data   = [
             'url'      => $this->getUrl(),
