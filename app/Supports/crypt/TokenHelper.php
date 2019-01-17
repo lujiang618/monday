@@ -2,14 +2,14 @@
 /**
  * Created by PhpStorm.
  * User: lujiang
- * Date: 2019/1/16
- * Time: 15:08
+ * Date: 2019/1/17
+ * Time: 10:40
  */
 
-namespace App\Supports;
+namespace App\Supports\crypt;
 
 
-class EncryptionHelper
+class TokenHelper
 {
     const TOKEN_KEY = '89732617593231204231412833213213';
 

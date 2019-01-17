@@ -50,4 +50,7 @@ class StringHelper
 
         return Uuid::uuid5(Uuid::NAMESPACE_DNS, $name)->toString();
     }
+
+
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Supports\crypt\TokenHelper;
 use App\Supports\EncryptionHelper;
 use Illuminate\Console\Command;
 
@@ -38,7 +39,7 @@ class Test extends Command
      */
     public function handle()
     {
-        $crypt = new EncryptionHelper();
+        $crypt = new TokenHelper();
 
         $data = [
             'name' => 'hourse',
