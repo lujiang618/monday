@@ -108,6 +108,8 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'password_salt' => 'AES-256-CBC',
+
     /*
     |--------------------------------------------------------------------------
     | Logging Configuration
