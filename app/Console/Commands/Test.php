@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Supports\crypt\TokenHelper;
 use App\Supports\EncryptionHelper;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Crypt;
 
 class Test extends Command
 {
@@ -27,8 +28,7 @@ class Test extends Command
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -37,21 +37,23 @@ class Test extends Command
      *
      * @return mixed
      */
-    public function handle()
-    {
-        $crypt = new TokenHelper();
+    public function handle() {
+        $string = '2019';
 
-        $data = [
-            'name' => 'hourse',
-            'price' => '107W',
-        ];
+        $encrypt = encrypt($string);
 
-        $secret = $crypt->encryptToken(json_encode($data));
-        echo 'encryption is :'.$secret;
+        echo $encrypt."\n";
 
-        echo "\n";
+        $decrypt = decrypt($encrypt);
 
-        $decode = $crypt->decryptToken($secret);
-        echo 'decryption is :'.$decode;
+        echo $decrypt."\n";
+
+        $encrypt = Crypt::encryptString($string);
+
+        echo $encrypt."\n";
+
+        $decrypt = Crypt::decryptString($encrypt);
+
+        echo $decrypt."\n";
     }
 }

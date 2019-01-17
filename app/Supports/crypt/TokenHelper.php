@@ -8,7 +8,15 @@
 
 namespace App\Supports\crypt;
 
-
+/**
+ * @description
+ * @package      com.uuabc
+ * @category
+ * @author       lujiang
+ * @version      1.0
+ *
+ * laravel的加密解密：https://laravel-china.org/docs/laravel/5.5/encryption/1311
+ */
 class TokenHelper
 {
     const TOKEN_KEY = '89732617593231204231412833213213';
