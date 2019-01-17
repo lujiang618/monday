@@ -16,6 +16,15 @@ namespace App\Supports\crypt;
  * @version      1.0
  *
  * laravel的加密解密：https://laravel-china.org/docs/laravel/5.5/encryption/1311
+ *
+ *
+ * 加密思路：token=UrlSafeBase64(AES(data))
+ * 1.采用UTF8编码
+ * 2.data 为json字符串
+ * 3.AES 目前采用的是aes-256-ecb， AES/ECB/PKCS5Padding
+ * 4.URLSafeBase64：在base64的基础上进行如下替换
+ * 5.原始数据（字符串）：{"id":"123","roles":["TEACHER"],"timestamp":1542426604219} 加密结果：TZ5S-tjemW--7T0_b0wKP5_ao94wCu5IngjoXbfTmOaxuvFDUWj_UoS-yEJd9LCnkoruH1FAgnlWewlvSePHhQ
+ *
  */
 class TokenHelper
 {
