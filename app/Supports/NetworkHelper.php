@@ -9,7 +9,7 @@
 namespace helper;
 
 
-class Network
+class NetworkHelper
 {
 
     /**

@@ -11,6 +11,21 @@ namespace App\Supports;
 
 class DateHelper
 {
+
+    /**
+     * 返回本周开始和结束的时间戳
+     *
+     * @return array
+     */
+    public static function week() {
+        $timestamp = time();
+
+        return [
+            'start' => strtotime(date('Y-m-d', strtotime("Monday this week", $timestamp))),
+            'end'   => strtotime(date('Y-m-d', strtotime("Sunday this week", $timestamp))) + 24 * 3600 - 1,
+        ];
+    }
+
     /**
      * @description   本周开始
      * @author        lujiang

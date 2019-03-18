@@ -24,6 +24,7 @@ namespace App\Supports\crypt;
  * 3.AES 目前采用的是aes-256-ecb， AES/ECB/PKCS5Padding
  * 4.URLSafeBase64：在base64的基础上进行如下替换
  * 5.原始数据（字符串）：{"id":"123","roles":["TEACHER"],"timestamp":1542426604219} 加密结果：TZ5S-tjemW--7T0_b0wKP5_ao94wCu5IngjoXbfTmOaxuvFDUWj_UoS-yEJd9LCnkoruH1FAgnlWewlvSePHhQ
+ * 6.token过期时间为7天
  *
  */
 class TokenHelper
